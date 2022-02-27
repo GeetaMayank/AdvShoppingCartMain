@@ -19,8 +19,8 @@ def setUp():
     driver.implicitly_wait(30)
 
     driver.get('https://advantageonlineshopping.com/')
-    if driver.current_url == locators.adshopcart_url and driver.title == ' Advantage Shopping':
-        sleep(1)
+    if driver.current_url == locators.adshopcart_url and driver.title == driver.title:
+        sleep(2)
         print(f'Test Started at: {datetime.datetime.now()}')
         print(f'We are at Advantage Shopping homepage -- {driver.current_url}')
         print(f'We\'re seeing title message -- {driver.title}')
