@@ -18,8 +18,8 @@ def setUp():
     driver.maximize_window()
     driver.implicitly_wait(30)
 
-    driver.get('https://advantageonlineshopping.com/')
-    if driver.current_url == locators.adshopcart_url and driver.title == driver.title:
+    driver.get(locators.adshopcart_url)
+    if driver.current_url == locators.adshopcart_url and driver.title == locators.adshopcart_title:
         sleep(2)
         print(f'Test Started at: {datetime.datetime.now()}')
         print(f'We are at Advantage Shopping homepage -- {driver.current_url}')
@@ -38,7 +38,7 @@ def tearDown():
         print(f'Test Completed at: {datetime.datetime.now()}')
         driver.close()
         driver.quit()
-        sleep(1)
+
 
 
 setUp()
