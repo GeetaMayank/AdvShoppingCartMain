@@ -50,13 +50,13 @@ def signUp():
         # ACCOUNT DETAILS
         driver.find_element(By.LINK_TEXT, 'CREATE NEW ACCOUNT').click()   # Select Create New Account
         sleep(1)
-        driver.find_element(By.NAME, 'usernameRegisterPage').send_keys(locators.username)   # Username
+        driver.find_element(By.NAME, 'usernameRegisterPage').send_keys(locators.new_username)   # Username
         sleep(1)
         driver.find_element(By.NAME, 'emailRegisterPage').send_keys(locators.email)    # Email
         sleep(1)
-        driver.find_element(By.NAME, 'passwordRegisterPage').send_keys(locators.password)    # Password
+        driver.find_element(By.NAME, 'passwordRegisterPage').send_keys(locators.new_password)    # Password
         sleep(1)
-        driver.find_element(By.NAME, 'confirm_passwordRegisterPage').send_keys(locators.password)    # Confirm Password
+        driver.find_element(By.NAME, 'confirm_passwordRegisterPage').send_keys(locators.new_password)    # Confirm Password
         sleep(1)
 
         # PERSONAL DETAILS
@@ -85,13 +85,13 @@ def signUp():
         driver.find_element(By.NAME, 'i_agree').click()  # Check 'I Agree' checkbox
         sleep(1)
         driver.find_element(By.ID, 'register_btnundefined').click()  # Click by REGISTER Button
-        sleep(2)
-        print(f'Registration for a new user  "{locators.username}" is done successfully.')
+        sleep(3)
+        print(f'Registration for a new user  "{locators.new_username}" is done successfully.')
         print(f'------------------------------------------------------------')
     else:
         print(f'We\'re not registered for new user .Try again')
-        driver.close()
-        driver.quit()
+    #     driver.close()
+    #     driver.quit()
 
 
 # Checking that Full name is displayed and we have No orders in My Orders
@@ -117,23 +117,19 @@ def check_my_account_my_orders():
         driver.quit()
 
 
-
-
 # Login we Login with new credentials (username and password).
-def log_in():
+def log_in(username, password):
 
     driver.find_element(By.ID, 'menuUser').click()   # User
     sleep(2)
-    driver.find_element(By.NAME, 'username').send_keys(locators.username)   # Username
+    driver.find_element(By.NAME, 'username').send_keys(username)   # Username
     sleep(1)
-    driver.find_element(By.NAME, 'password').send_keys(locators.password)    # Password
+    driver.find_element(By.NAME, 'password').send_keys(password)    # Password
     sleep(1)
     driver.find_element(By.ID, 'sign_in_btnundefined').click()    # Sign In
     sleep(2)
-    print(f'Login with new user "{locators.username}" done successfully')
+    print(f'Login with new user "{locators.new_username}" done successfully')
     print(f'------------------------------------------------------------')
-
-
 
 
 # Sign out from account
@@ -143,7 +139,7 @@ def log_out():
         sleep(2)
         driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[3]').click()  # Sign Out
         sleep(2)
-        print(f'Log out with user "{locators.username}" done successfully')
+        print(f'Log out with user "{locators.new_username}" done successfully')
         print(f'Log out successfully at: {datetime.datetime.now()}')
         print(f'------------------------------------------------------------')
     else:
@@ -158,15 +154,15 @@ def delete_account():
         driver.find_element(By.ID, 'menuUserLink').click()
         sleep(2)
         driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[1]').click()  # My Account
-        sleep(4)
+        sleep(5)
         driver.find_element(By.CLASS_NAME, 'deleteBtnText').click()  # Delete Account
         sleep(4)
         driver.find_element(By.XPATH, '//*[@id="deleteAccountPopup"]/div[3]/div[1]').click()  # Confirm Delete Account
-        sleep(4)
-        print(f'The new user created : "{locators.username}" is deleted successfully.')
+        sleep(5)
+        print(f'The new user created : "{locators.new_username}" is deleted successfully.')
         print(f'------------------------------------------------------------')
     else:
-        print(f'The new User {locators.username} is not deleted.')
+        print(f'The new User {locators.new_username} is not deleted.')
         driver.close()
         driver.quit()
 
@@ -176,27 +172,122 @@ def login_with_incorrect_username():
     if driver.current_url == 'https://advantageonlineshopping.com/#/':
         driver.find_element(By.ID, 'menuUserLink').click()
         sleep(3)
-        driver.find_element(By.NAME, 'username').send_keys(locators.username)  # Username
-        sleep(3)
-        driver.find_element(By.NAME, 'password').send_keys(locators.password)  # Password
-        sleep(3)
-        driver.find_element(By.ID, 'sign_in_btnundefined').click()  # Sign In
+        driver.find_element(By.NAME, 'username').send_keys(locators.new_username)  # Username
         sleep(2)
+        driver.find_element(By.NAME, 'password').send_keys(locators.new_password)  # Password
+        sleep(2)
+        driver.find_element(By.ID, 'sign_in_btnundefined').click()  # Sign In
+        sleep(4)
         content = driver.find_element(By.XPATH, '//*[@id="signInResultMessage"]')
         print(f'"{content.text}" text is displayed.')
+        driver.find_element(By.XPATH, '/html/body/login-modal/div/div/div[2]').click()
+        sleep(3)
         print(f'Test Scenario: Login with incorrect username and password - is passed')
+        print(f'------------------------------------------------------------')
     else:
         print(f'Incorrect user name or password text is not displayed.')
 
 
-setUp()
-signUp()
-check_my_account_my_orders()
-log_out()
-log_in()
-delete_account()
-login_with_incorrect_username()
-tearDown()
+def check_homepage():
+
+    # Check that SPEAKERS, TABLETS, HEADPHONES, LAPTOPS, MICE texts are displayed.
+    content = driver.find_element(By.XPATH, '//*[@id="speakersTxt"]')
+    print(f'"{content.text}" text is displayed.')
+    driver.find_element(By.ID, 'speakersTxt').click()   # Speakers
+    sleep(2)
+    driver.find_element(By.LINK_TEXT, 'HOME').click()    # Home
+    sleep(1)
+
+    content = driver.find_element(By.XPATH, '//*[@id="tabletsTxt"]')
+    print(f'"{content.text}" text is displayed.')
+    driver.find_element(By.ID, 'tabletsTxt').click()   # Tablets
+    sleep(2)
+    driver.find_element(By.LINK_TEXT, 'HOME').click()    # Home
+    sleep(1)
+
+    content = driver.find_element(By.XPATH, '//*[@id="laptopsTxt"]')
+    print(f'"{content.text}" text is displayed.')
+    driver.find_element(By.ID, 'laptopsTxt').click()    # Laptops
+    sleep(2)
+    driver.find_element(By.LINK_TEXT, 'HOME').click()    # Home
+    sleep(1)
+
+    content = driver.find_element(By.XPATH, '//*[@id="miceTxt"]')
+    print(f'"{content.text}" text is displayed.')
+    driver.find_element(By.ID, 'miceTxt').click()    # Mice
+    sleep(2)
+    driver.find_element(By.LINK_TEXT, 'HOME').click()    # Home
+    sleep(1)
+
+    content = driver.find_element(By.XPATH, '//*[@id="headphonesTxt"]')
+    print(f'"{content.text}" text is displayed.')
+    driver.find_element(By.ID, 'headphonesTxt').click()
+    sleep(2)
+    driver.find_element(By.LINK_TEXT, 'HOME').click()
+    sleep(1)
+    print(f'------------------------------------------------------------')
+
+    #  Check main logo is displayed.
+    driver.find_element(By.CSS_SELECTOR, '.logo > a').click()    # Main Logo
+    content = driver.find_element(By.XPATH, '/html/body/header/nav/div/a')
+    print(f'"{content.text}" logo is displayed.')
+    print(f'------------------------------------------------------------')
+
+    # Click by SPECIAL OFFER, POPULAR ITEMS  and CONTACT US links at the top nav menu are clickable.
+    if driver.current_url == 'https://advantageonlineshopping.com/#/':
+        driver.find_element(By.LINK_TEXT, 'OUR PRODUCTS').click()  # OUR PRODUCTS
+        sleep(2)
+        driver.find_element(By.LINK_TEXT, 'SPECIAL OFFER').click()  # SPECIAL OFFER
+        sleep(2)
+        driver.find_element(By.LINK_TEXT, 'POPULAR ITEMS').click()  # POPULAR ITEMS
+        sleep(2)
+        driver.find_element(By.LINK_TEXT, 'CONTACT US').click()  # CONTACT US
+        sleep(2)
+    else:
+        print(f'SPECIAL OFFER, POPULAR ITEMS  and CONTACT US links at the top nav menu are not clickable')
+
+
+def contact_us_form():
+    # Checking that CONTACT US form is working properly and CONTINUE SHOPPING button is displayed after submitting the form.
+    if driver.current_url == 'https://advantageonlineshopping.com/#/':
+        driver.find_element(By.NAME, 'categoryListboxContactUs').click()
+        sleep(1)
+        Select(driver.find_element(By.NAME, 'categoryListboxContactUs')).select_by_visible_text('Laptops')
+        sleep(1)
+        driver.find_element(By.NAME, 'productListboxContactUs').click()
+        sleep(1)
+        driver.find_element(By.XPATH,
+                            '//*[@id="supportCover"]/div[2]/sec-form/div[1]/div/sec-view[2]/div/select/option[2]').click()
+        sleep(1)
+        driver.find_element(By.NAME, 'emailContactUs').send_keys(locators.email)  # Email
+        sleep(1)
+        driver.find_element(By.NAME, 'subjectTextareaContactUs').click()
+        sleep(2)
+        driver.find_element(By.NAME, 'subjectTextareaContactUs').send_keys(locators.subject)
+        sleep(2)
+        driver.find_element(By.ID, 'send_btnundefined').click()
+        sleep(2)
+        content = driver.find_element(By.XPATH, '//*[@id="registerSuccessCover"]/div/a')
+        print(f'"{content.text}" is displayed.')
+        driver.find_element(By.LINK_TEXT, 'CONTINUE SHOPPING').click()  # Continue Shopping
+        sleep(2)
+        print(f'CONTACT US form is working properly.')
+        print(f'CONTINUE SHOPPING button is displayed after submitting the form')
+    else:
+        print(f'CONTACT US form is not working properly')
+        driver.close()
+        driver.quit()
+
+# setUp()
+# signUp()
+# check_my_account_my_orders()
+# log_out()
+# log_in(locators.new_username, locators.new_password)
+# delete_account()
+# login_with_incorrect_username()
+# check_homepage()
+# contact_us_form()
+# tearDown()
 
 
 
